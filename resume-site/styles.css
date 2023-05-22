@@ -1,0 +1,46 @@
+.header {
+    text-align: center;
+    margin-top: 100px;
+    font-family: 'Liberation Serif', serif;
+}
+
+.sub-header {
+    font-family: 'Liberation Serif', serif;
+}
+
+.info-list {
+    text-align: center;
+    margin-top: 50px;
+    font-family: 'Liberation Serif', serif;
+}
+
+.line {
+    margin-top: 55px;
+}
+
+.thickline {
+    border: none;
+    border-top: 3px solid black;
+}
+.text {
+    font-family: 'Liberation Serif', serif;
+}
+
+.subproject {
+  font-family: 'Liberation Serif', serif;
+  margin-bottom: 3px;
+}
+
+p {
+   margin-top: 0px
+}
+
+h2 {
+  font-family: 'Liberation Serif', serif;
+}
+
+.counter {
+    text-align: left;
+    font-family: 'Liberation Serif', serif;
+    font-size: 24px;
+}
