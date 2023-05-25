@@ -9,11 +9,20 @@ def lambda_handler(event, context):
         'ID': '0'
     })
     views = response['Item']['views']
-    views = views + 1
+    views = int(views) + 1
     print(views)
     response = table.put_item(Item={
         'ID': '0',
         'views': views
     })
     
-    return views
+    return {
+    'statusCode': 200,
+    'body': json.dumps({
+        'views': int(views)
+    }),
+    'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    }
+}
