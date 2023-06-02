@@ -13,3 +13,23 @@ Resources:
       KeySchema:
         - AttributeName: "ID"
           KeyType: "HASH"
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+          TableName: cloud-resume-challenge-counter
+      CodeUri: lambda/
+      Handler: func.lambda_handler
+      Runtime: python3.10
+      Tracing: Active
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /get
+            Method: GET
+
+  ApiGateway:
+    Type: AWS::       
