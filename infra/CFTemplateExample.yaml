@@ -61,3 +61,12 @@ Resources:
       Name: cloud-resume-challenge
       Description: 'API Gateway for Cloud Resume Challenge'
       FailOnWarnings: true
+
+  MyDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: ApiResource
+    Properties:
+      RestApiId: !Ref ApiGateway
+      StageName: "Prod"
+  
+  
