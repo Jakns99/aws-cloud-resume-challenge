@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation Template To Create Cloud Resume Challenge Back end resources
+
+Resources:
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: cloud-resume-challenge-counter
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
