@@ -56,7 +56,8 @@ Resources:
 
 
   ApiGateway:
-    Type: AWS::Serverless::Api
+    Type: AWS::ApiGateway::RestApi
     Properties:
-      StageName: Prod
-      Domain:
+      Name: cloud-resume-challenge
+      Description: 'API Gateway for Cloud Resume Challenge'
+      FailOnWarnings: true
