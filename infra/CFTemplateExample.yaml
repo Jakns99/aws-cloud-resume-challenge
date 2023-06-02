@@ -15,7 +15,7 @@ Resources:
           KeyType: "HASH"
 
   LambdaFunction:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
       Policies:
         - DynamoDBCrudPolicy:
@@ -24,12 +24,10 @@ Resources:
       Handler: func.lambda_handler
       Runtime: python3.10
       Tracing: Active
-      Events:
-        CatchAll:
-          Type: Api
-          Properties:
-            Path: /get
-            Method: GET
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynamoDBTable
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -70,8 +68,20 @@ Resources:
       StageName: "Prod"
   
   ApiResource:
-    Type: AWS:ApiGateway::Resource
+    Type: AWS::ApiGateway::Resource
     Properties:
       RestApiId: !Ref MyApi
       ParentId: !GetAtt MyApi.RootResourceId
       PathPart: get
+  
+  ApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref MyApi
+      ResourceId: !Ref ApiResource
+      HttpMethod: 'GET'
+      AuthorizationType: 'NONE'
+      Integration:
+        Type: 'AWS_PROXY'
+        IntegrationHttpMethod: 'POST'
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations'
