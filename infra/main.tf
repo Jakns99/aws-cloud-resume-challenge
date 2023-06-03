@@ -4,6 +4,19 @@ data "archive_file" "lambda_zip" {
   output_path = "${path.module}/packedlambda.zip"
 }
 
+resource "aws_dynamodb_table" "DynamoDBTable" {
+  name           = "cloud-resume-challenge-counter"
+  billing_mode   = "PAY_PER_REQUEST"
+  hash_key       = "ID"
+  read_capacity  = 20
+  write_capacity = 20
+
+  attribute {
+    name = "ID"
+    type = "S"
+  }
+}
+
 resource "aws_lambda_function_url" "url" {
   function_name      = aws_lambda_function.myfunc.function_name
   authorization_type = "NONE"
