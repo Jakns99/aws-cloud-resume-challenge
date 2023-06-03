@@ -57,7 +57,8 @@ resource "aws_iam_policy" "cloud_resume_policy" {
   name        = "aws_iam_policy_for_terraform_resume_project_policy"
   path        = "/"
   description = "AWS IAM Policy for managing the resume project role"
-    policy = jsonencode(
+
+  policy = jsonencode(
     {
       "Version" : "2012-10-17",
       "Statement" : [
@@ -74,7 +75,7 @@ resource "aws_iam_policy" "cloud_resume_policy" {
           "Effect" : "Allow",
           "Action" : [
             "dynamodb:UpdateItem",
-			      "dynamodb:GetItem"
+            "dynamodb:GetItem"
           ],
           "Resource" : "arn:aws:dynamodb:*:*:table/cloud-resume-challenge-counter"
         },
