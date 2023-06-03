@@ -133,3 +133,10 @@ resource "aws_api_gateway_integration" "ApiIntegration" {
   integration_http_method = "POST"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
+
+resource "aws_api_gateway_deployment" "MyDeployment" {
+  depends_on = [aws_api_gateway_integration.ApiIntegration]
+  
+  rest_api_id = aws_api_gateway_rest_api.MyApi.id
+  stage_name  = "Prod"
+}
