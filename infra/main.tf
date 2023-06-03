@@ -94,5 +94,19 @@ resource "aws_lambda_function" "lambda_function" {
   function_name    = "function"
   role             = aws_iam_role.lambda_role.arn
   handler          = "func.handler"
-  runtime          = "python3.10" 
+  runtime          = "python3.10"
+
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.DynamoDBTable.name
+    }
+  }
+
+  tracing_config {
+    mode = "Active"
+  }
+}
+resource "aws_api_gateway_rest_api" "MyApi" {
+  name        = "cloud-resume-challenge"
+  description = "API Gateway for Cloud Resume Challenge"
 }
