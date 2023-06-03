@@ -116,3 +116,20 @@ resource "aws_api_gateway_resource" "ApiResource" {
   parent_id   = aws_api_gateway_rest_api.MyApi.root_resource_id
   path_part   = "get"
 }
+
+resource "aws_api_gateway_method" "ApiMethod" {
+  rest_api_id   = aws_api_gateway_rest_api.MyApi.id
+  resource_id   = aws_api_gateway_resource.ApiResource.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "ApiIntegration" {
+  rest_api_id = aws_api_gateway_rest_api.MyApi.id
+  resource_id = aws_api_gateway_resource.ApiResource.id
+  http_method = aws_api_gateway_method.ApiMethod.http_method
+
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = aws_lambda_function.lambda_function.invoke_arn
+}
