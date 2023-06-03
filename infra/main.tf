@@ -110,3 +110,9 @@ resource "aws_api_gateway_rest_api" "MyApi" {
   name        = "cloud-resume-challenge"
   description = "API Gateway for Cloud Resume Challenge"
 }
+
+resource "aws_api_gateway_resource" "ApiResource" {
+  rest_api_id = aws_api_gateway_rest_api.MyApi.id
+  parent_id   = aws_api_gateway_rest_api.MyApi.root_resource_id
+  path_part   = "get"
+}
