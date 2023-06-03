@@ -17,9 +17,6 @@ Resources:
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Policies:
-        - DynamoDBCrudPolicy:
-          TableName: cloud-resume-challenge-counter
       CodeUri: lambda/
       Handler: func.lambda_handler
       Runtime: python3.10
