@@ -17,21 +17,6 @@ resource "aws_dynamodb_table" "DynamoDBTable" {
   }
 }
 
-resource "aws_lambda_function_url" "url" {
-  function_name      = aws_lambda_function.myfunc.function_name
-  authorization_type = "NONE"
-
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    allow_headers     = ["date", "keep-alive"]
-    expose_headers    = ["keep-alive", "date"]
-    max_age           = 86400
-  }
-}
-
-
 resource "aws_iam_role" "lambda_role" {
   name = "lambda_role"
 
@@ -84,7 +69,7 @@ resource "aws_iam_policy" "cloud_resume_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role = aws_iam_role.iam_for_lambda.name
+  role = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.cloud_resume_policy.arn 
 }
 
@@ -123,6 +108,22 @@ resource "aws_api_gateway_method" "ApiMethod" {
   resource_id   = aws_api_gateway_resource.ApiResource.id
   http_method   = "GET"
   authorization = "NONE"
+
+  request_parameters = {
+    "method.request.header.Access-Control-Allow-Origin" = "'*'"
+  }
+}
+
+resource "aws_api_gateway_method_response" "200" {
+  rest_api_id = aws_api_gateway_rest.api.MyApi.id
+  resource_id = aws_api_gateway_resource.ApiResource.id
+  http_method = aws_api_gateway_method.ApiMethod.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+
 }
 
 resource "aws_api_gateway_integration" "ApiIntegration" {
@@ -133,6 +134,14 @@ resource "aws_api_gateway_integration" "ApiIntegration" {
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
+
+  integration_responses {
+    status_code = "200"
+
+    response_parameters = {
+      "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    }
+  }
 }
 
 resource "aws_api_gateway_deployment" "MyDeployment" {
