@@ -74,7 +74,7 @@ resource "aws_iam_policy" "cloud_resume_policy" {
           "Effect" : "Allow",
           "Action" : [
             "dynamodb:UpdateItem",
-			"dynamodb:GetItem"
+			      "dynamodb:GetItem"
           ],
           "Resource" : "arn:aws:dynamodb:*:*:table/cloud-resume-challenge-counter"
         },
