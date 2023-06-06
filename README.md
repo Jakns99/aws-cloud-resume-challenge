@@ -7,3 +7,4 @@ The project calls for a blog to be created to explain the process of creating th
 ![Architecture](Architecture.png)
 
 ## Blog
+Here: https://dev.to/jakns99/cloud-resume-challenge-3537
