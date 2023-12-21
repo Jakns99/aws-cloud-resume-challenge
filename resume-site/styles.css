@@ -73,3 +73,13 @@ h2 {
     margin: 0;
 }
 
+.work-experience-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.job-title {
+    margin: 0;
+}
+
